@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+    (function () {  // working in local namespace
+
+        // the function that triggers an Ajax call
+        function getData() {
+            fetch('./api/some.json')
+                .then(
+                    function (response) {
+                        // handle the error
+                        if (response.status !== 200) {
+                            document.querySelector("#data").innerHTML = 'Looks like there was a problem. Status Code: ' +
+                                response.status;
+                            return;
+                        }
+
+                        // Examine the response metadata
+                        response.json().then(function (data) {
+                            var html = "<h2> Metadata</h2><pre>";
+                            html += response.headers.get('Content-Type') + "<br/>";
+                            html += response.headers.get('Date') + "<br/>";
+                            html += response.status + "<br/>";
+                            html += response.statusText + "<br/>";
+                            html += response.url + "<br/></pre>";
+
+
+                            // display the HTML
+                            document.querySelector("#data").innerHTML = html;
+                        });
+                    }
+                )
+                .catch(function (err) {
+                    console.log('Fetch Error :', err);
+                });
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector("#getdata").addEventListener("click", getData);
+        }, false);
+
+    })();
+
+</script>
+
+<button id="getdata">Get data</button>
+<p>Data will be displayed below:</p>
+<div id="data">
+
+</div>
+</body>
+</html>

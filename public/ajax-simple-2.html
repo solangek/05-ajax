@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax simple call</title>
+</head>
+<body>
+
+<script>
+
+    (function () {  // working in local namespace
+
+        async function postData(url = '') {
+            const response = await fetch(url, {
+                //method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                //mode: 'cors', // no-cors, *cors, same-origin
+                //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                //credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                //redirect: 'follow', // manual, *follow, error
+                //referrer: 'no-referrer', // no-referrer, *client
+                //body: JSON.stringify(data) // body data type must match "Content-Type" header
+            });
+            return await response.json(); // parses JSON response into native JavaScript objects
+        }
+
+        // the function that triggers an Ajax call
+        async function getData() {
+            try {
+                const data = await postData('api/some.json');
+                var html = "<h2> Name: " + data.name + "</h2>";
+                for (i in data.cars) {
+                    html += "<li>" + data.cars[i].name + ": ";
+                    for (j in data.cars[i].models) {
+                        html += data.cars[i].models[j] + " ";
+                    }
+                    html += "</li>"
+                }
+                // display the HTML
+                document.querySelector("#data").innerHTML = html;
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector("#getdata").addEventListener("click", getData);
+        }, false);
+
+    })();
+
+</script>
+
+<button id="getdata">Get data</button>
+<p>Data will be displayed below:</p>
+<div id="data">
+
+</div>
+</body>
+</html>

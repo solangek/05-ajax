@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+    (function () {  // working in local namespace
+
+        // the function that triggers an Ajax call - we add HEADERS and DATA to the Ajax call
+        // note that there is no real server side code, therefore these params are not used
+        function getData() {
+
+            // we attach to our HTTP request
+            var ajaxParams = {
+                                method: 'post',
+                                body: JSON.stringify({min: 1, max: 100})
+            };
+
+            fetch('./api/some.json', ajaxParams)
+            .then(
+                function (response) {
+                    // handle the error - this example will always FAIL because there is no
+                    // implementation of a server side code that can handle a POST requests
+                    if (response.status !== 200) {
+                        document.querySelector("#data").innerHTML = 'Looks like there was a problem. Status Code: ' +
+                            response.status;
+                        return;
+                    }
+
+                    // Examine the response and generate the HTML
+                    response.json().then(function (data) {
+                        var html = "<h2> Name: " + data.name + "</h2>";
+                        for (i in data.cars) {
+                            html += "<li>" + data.cars[i].name + ": ";
+                            for (j in data.cars[i].models) {
+                                html += data.cars[i].models[j] + " ";
+                            }
+                            html += "</li>"
+                        }
+                        // display the HTML
+                        document.querySelector("#data").innerHTML = html;
+                    });
+                }
+            )
+            .catch(function (err) {
+                console.log('Fetch Error :', err);
+            });
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector("#getdata").addEventListener("click", getData);
+        }, false);
+
+    })();
+
+</script>
+
+<button id="getdata">Get data</button>
+<p>Data will be displayed below:</p>
+<div id="data">
+
+</div>
+</body>
+</html>

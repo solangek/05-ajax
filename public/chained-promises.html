@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+    (function () {
+
+        function status(response) {
+            if (response.status >= 200 && response.status < 300) {
+                return Promise.resolve(response)
+            } else {
+                return Promise.reject(new Error(response.statusText))
+            }
+        }
+
+        function json(response) {
+            return response.json()
+        }
+
+
+        // the function that triggers an Ajax call
+        function getData() {
+            fetch('/api/some.json')
+                .then(status)
+                .then(json)
+                .then(function(response) {
+                    console.log('Request succeeded with JSON response', response);
+
+                    // generate the HTML
+                    var html = "<h2> Name: " + response.name + "</h2>";
+                    for (i in response.cars) {
+                        html += "<li>" + response.cars[i].name + ": ";
+                        for (j in response.cars[i].models) {
+                            html += response.cars[i].models[j] + " ";
+                        }
+                        html += "</li>"
+                    }
+                    // display the HTML
+                    document.querySelector("#data").innerHTML = html;
+
+
+                }).catch(function(error) {
+                console.log('Request failed', error);
+            });
+
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector("#getdata").addEventListener("click", getData);
+        }, false);
+
+    })();
+
+</script>
+
+<button id="getdata">Get data</button>
+<p>Data will be displayed below:</p>
+<div id="data">
+
+</div>
+</body>
+</html>
