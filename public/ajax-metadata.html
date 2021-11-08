@@ -8,7 +8,7 @@
 
 <script>
 
-    (function () {  // working in local namespace
+    //(function () {
 
         // the function that triggers an Ajax call
         function getData() {
@@ -40,13 +40,13 @@
                 .catch(function (err) {
                     console.log('Fetch Error :', err);
                 });
-        };
+        }
 
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelector("#getdata").addEventListener("click", getData);
         }, false);
 
-    })();
+    //})();
 
 </script>
 

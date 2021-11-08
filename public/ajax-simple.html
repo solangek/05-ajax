@@ -8,14 +8,14 @@
 
 <script>
 
-    (function () {  // working in local namespace
+    (function () {  // working in closure
 
         // the function that triggers an Ajax call
         function getData() {
             fetch('./api/some.json')
                 .then(
                     function (response) {
-                        // handle the error
+                        // check the HTTP response status
                         if (response.status !== 200) {
                             document.querySelector("#data").innerHTML = 'Looks like there was a problem. Status Code: ' +
                                 response.status;
@@ -24,11 +24,11 @@
 
                         // Examine the response and generate the HTML
                         response.json().then(function (data) {
-                            var html = "<h2> Name: " + data.name + "</h2>";
-                            for (i in data.cars) {
-                                html += "<li>" + data.cars[i].name + ": ";
+                            var html = `<h2> Name: ${data.name}</h2>`;
+                            for (const i in data.cars) {
+                                html += `<li>${data.cars[i].name}: `;
                                 for (j in data.cars[i].models) {
-                                    html += data.cars[i].models[j] + " ";
+                                    html += data.cars[i].models[j] + ", ";
                                 }
                                 html += "</li>"
                             }
@@ -40,7 +40,7 @@
                 .catch(function (err) {
                     console.log('Fetch Error :', err);
                 });
-        };
+        }
 
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelector("#getdata").addEventListener("click", getData);

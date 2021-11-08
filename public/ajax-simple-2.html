@@ -30,11 +30,11 @@
         async function getData() {
             try {
                 const data = await postData('api/some.json');
-                var html = "<h2> Name: " + data.name + "</h2>";
-                for (i in data.cars) {
-                    html += "<li>" + data.cars[i].name + ": ";
+                let html = `<h2> Name: ${data.name}</h2>`;
+                for (const i in data.cars) {
+                    html += `<li>${data.cars[i].name}: `;
                     for (j in data.cars[i].models) {
-                        html += data.cars[i].models[j] + " ";
+                        html += data.cars[i].models[j] + ", ";
                     }
                     html += "</li>"
                 }
@@ -43,7 +43,7 @@
             } catch (error) {
                 console.error(error);
             }
-        };
+        }
 
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelector("#getdata").addEventListener("click", getData);

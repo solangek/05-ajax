@@ -8,8 +8,12 @@
 
 <script>
 
-    (function () {
+    // this is the correct way to write an Ajax request
 
+    // not when debugging
+    // (function () {
+
+        //  check the HTTP response status, returns a promise
         function status(response) {
             if (response.status >= 200 && response.status < 300) {
                 return Promise.resolve(response)
@@ -18,6 +22,7 @@
             }
         }
 
+        // returns a promise!
         function json(response) {
             return response.json()
         }
@@ -32,11 +37,11 @@
                     console.log('Request succeeded with JSON response', response);
 
                     // generate the HTML
-                    var html = "<h2> Name: " + response.name + "</h2>";
-                    for (i in response.cars) {
-                        html += "<li>" + response.cars[i].name + ": ";
-                        for (j in response.cars[i].models) {
-                            html += response.cars[i].models[j] + " ";
+                    let html = `<h2> Name: ${data.name}</h2>`;
+                    for (const i in data.cars) {
+                        html += `<li>${data.cars[i].name}: `;
+                        for (j in data.cars[i].models) {
+                            html += data.cars[i].models[j] + ", ";
                         }
                         html += "</li>"
                     }
@@ -48,13 +53,13 @@
                 console.log('Request failed', error);
             });
 
-        };
+        }
 
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelector("#getdata").addEventListener("click", getData);
         }, false);
 
-    })();
+    // })();
 
 </script>
 
