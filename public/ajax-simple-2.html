@@ -8,8 +8,9 @@
 
 <script>
 
-    (function () {  // working in local namespace
+    //(function () {  // working in local namespace
 
+    // SYNTAX style async/awaits
         async function postData(url = '') {
             const response = await fetch(url, {
                 //method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -49,7 +50,7 @@
             document.querySelector("#getdata").addEventListener("click", getData);
         }, false);
 
-    })();
+    //})();
 
 </script>
 

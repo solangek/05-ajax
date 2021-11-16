@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //
+
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector("#getdata").addEventListener("click", getData);
+    });
+
+    function status(response) {
+        if (response.status >= 200 && response.status < 300) {
+            return Promise.resolve(response)
+        } else {
+            return Promise.reject(new Error(response.statusText))
+        }
+    }
+
+    function getData() {
+
+        document.querySelector("#data").innerHTML = "loading...";
+
+        fetch('https://api.github.com/users/nickwalton')
+
+            .then(status)
+
+            .then(res => res.json())
+
+            .then(json => {
+
+                // you must inspect the response to understand it's format
+                document.querySelector("#data").innerHTML = json.bio; // remove the loading message
+
+            })
+            .catch(function(err) {
+                document.querySelector("#data").innerHTML = "something went wrong...try again later";
+            });
+    }
+
+</script>
+
+
+<h1>Reddit</h1>
+<p>This is an example Ajax call to Github site . We display the repo of some user.</p>
+
+<button id="getdata">Get github User Info:</button>
+<ol id="data">
+</ol>
+
+</body>
+</html>

@@ -8,9 +8,10 @@
 
 <script>
 
-    (function () {  // working in closure
+    //(function () {  // working in closure
 
         // the function that triggers an Ajax call
+        // WITHOUT CHAINING - not the best solution
         function getData() {
             fetch('./api/some.json')
                 .then(
@@ -46,7 +47,7 @@
             document.querySelector("#getdata").addEventListener("click", getData);
         }, false);
 
-    })();
+    //})();
 
 </script>
 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector("#getdata").addEventListener("click", getData);
+    });
+
+    function status(response) {
+        if (response.status >= 200 && response.status < 300) {
+            return Promise.resolve(response)
+        } else {
+            return Promise.reject(new Error(response.statusText))
+        }
+    }
+
+    function getData() {
+
+        document.querySelector("#data").innerHTML = "loading...";
+
+        let numposts = document.getElementById("numposts").value;
+
+        fetch('https://www.reddit.com/r/javascript/top/.json?limit=' + numposts)
+
+            .then(status)
+
+            .then(res => res.json())
+
+            .then(json => {
+
+                document.querySelector("#data").innerHTML = ""; // remove the loading message
+
+                // you must inspect the response to understand it's format
+                json.data.children.forEach(element => {
+                    document.querySelector("#data").insertAdjacentHTML('beforeend', `<li>${element.data.title}</li>`)
+                });
+
+            })
+            .catch(function(err) {
+                document.querySelector("#data").innerHTML = "something went wrong...try again later";
+            });
+    }
+
+
+</script>
+<body>
+    <h1>Reddit</h1>
+    <p>This is an example Ajax call to Reddit site (check https://www.reddit.com/r/javascript/top/). We display the post recent posts.</p>
+    <label for="numposts">Number of posts:</label>
+    <input type="number" name="numposts" min="1" max="30" id="numposts" value="1">
+    <button id="getdata">Get data</button>
+    <p>Latest posts:</p>
+    <ol id="data">
+    </ol>
+</body>
+</html>
