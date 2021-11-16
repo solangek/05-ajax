@@ -30,7 +30,7 @@
 
         // the function that triggers an Ajax call
         function getData() {
-            fetch('/public/api/some.json')
+            fetch('./api/some.json')
                 .then(status)
                 .then(json)
                 .then(function(data) {
