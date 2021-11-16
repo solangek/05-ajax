@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather</title>
+</head>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelector("#getdata").addEventListener("click", getData);
+    });
+
+    function getData() {
+
+        const lat = 37;
+        const lon = 122;
+        fetch(`http://www.7timer.info/bin/api.pl?lon=${lon}&lat=${lat}&product=astro&output=json`) .then(response => response.json()) //
+            .then(response => response.dataseries[0].temp2m)
+
+            .then(temperature => document.querySelector("#data").innerHTML = `The temperature reported by the 7timer is: ${temperature} C`)
+
+            .catch(function(err) {
+                document.querySelector("#data").innerHTML = "something went wrong...try again later";
+            });
+    }
+
+
+</script>
+<body>
+<h1>Reddit</h1>
+<p>This is an example Ajax call to a weather forecast site http://www.7timer.info.</p>
+<p>The temperature is reported in Celsius.</p>
+<button id="getdata">Get data</button>
+
+<p id="data">
+</p>
+</body>
+</html>
