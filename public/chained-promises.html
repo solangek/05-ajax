@@ -30,11 +30,11 @@
 
         // the function that triggers an Ajax call
         function getData() {
-            fetch('/api/some.json')
+            fetch('/public/api/some.json')
                 .then(status)
                 .then(json)
-                .then(function(response) {
-                    console.log('Request succeeded with JSON response', response);
+                .then(function(data) {
+                    console.log('Request succeeded with JSON response', data);
 
                     // generate the HTML
                     let html = `<h2> Name: ${data.name}</h2>`;
