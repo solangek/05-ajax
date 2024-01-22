@@ -13,7 +13,8 @@
 
         const lat = 37;
         const lon = 122;
-        fetch(`http://www.7timer.info/bin/api.pl?lon=${lon}&lat=${lat}&product=astro&output=json`) .then(response => response.json()) //
+        fetch(`http://www.7timer.info/bin/api.pl?lon=${lon}&lat=${lat}&product=astro&output=json`)
+            .then(response => response.json()) //
             .then(response => response.dataseries[0].temp2m)
 
             .then(temperature => document.querySelector("#data").innerHTML = `The temperature reported by the 7timer is: ${temperature} C`)
@@ -26,7 +27,7 @@
 
 </script>
 <body>
-<h1>Reddit</h1>
+<h1>7timer</h1>
 <p>This is an example Ajax call to a weather forecast site http://www.7timer.info.</p>
 <p>The temperature is reported in Celsius.</p>
 <button id="getdata">Get data</button>

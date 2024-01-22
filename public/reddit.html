@@ -35,7 +35,8 @@
 
                 // you must inspect the response to understand it's format
                 json.data.children.forEach(element => {
-                    document.querySelector("#data").insertAdjacentHTML('beforeend', `<li>${element.data.title}</li>`)
+                    document.querySelector("#data").insertAdjacentHTML('beforeend',
+                        `<li>${element.data.title}</li>`)
                 });
 
             })
