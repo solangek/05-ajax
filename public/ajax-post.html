@@ -8,7 +8,7 @@
 
 <script>
 
-    (function () {
+    //(function () {
 
         // the function that triggers an Ajax call - we add HEADERS and DATA to the Ajax call
         // note that there is no real server side code, therefore these params are not used
@@ -32,8 +32,9 @@
                     }
 
                     // Examine the response and generate the HTML
-                    response.json().then(function (data) {
-                        var html = `<h2> Name: ${data.name}</h2>`;
+                    response.json()
+                        .then(function (data) {
+                        var html = `<h2> Name: ${data.name}</h2><ol>`;
                         for (const i in data.cars) {
                             html += `<li>${data.cars[i].name}: `;
                             for (j in data.cars[i].models) {
@@ -41,6 +42,7 @@
                             }
                             html += "</li>"
                         }
+                        html += "</ol>";
                         // display the HTML
                         document.querySelector("#data").innerHTML = html;
                     });
@@ -55,7 +57,7 @@
             document.querySelector("#getdata").addEventListener("click", getData);
         }, false);
 
-    })();
+    //})();
 
 </script>
 
