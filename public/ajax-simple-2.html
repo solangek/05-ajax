@@ -31,16 +31,15 @@
         async function getData() {
             try {
                 const data = await postData('api/some.json');
-                let html = `<h2> Name: ${data.name}</h2>`;
-                for (const i in data.cars) {
-                    html += `<li>${data.cars[i].name}: `;
-                    for (j in data.cars[i].models) {
-                        html += data.cars[i].models[j] + ", ";
-                    }
-                    html += "</li>"
-                }
-                // display the HTML
-                document.querySelector("#data").innerHTML = html;
+                // we could write this with a simple loop
+                // instead we use the power of functional programming with map()
+                const carListHTML = data.cars.map(car => {
+                    const modelsHTML = car.models.join(', '); // join the models array into a string
+                    return `<li>${car.name}: ${modelsHTML}</li>`; // return the HTML for each car
+                }).join(''); // join the array of HTML strings into one string
+
+                // display the HTML in one shot
+                document.querySelector("#data").innerHTML = `<h2>Name: ${data.name}</h2><ul>${carListHTML}</ul>`;;
             } catch (error) {
                 console.error(error);
             }
