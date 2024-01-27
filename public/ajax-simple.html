@@ -24,6 +24,7 @@
                         }
 
                         // Examine the response and generate the HTML
+                        // look at ajax-simple2.html for a better solution
                         response.json().then(function (data) {
                             let html = `<h2> Name: ${data.name}</h2><ol>`;
                             for (const i in data.cars) {
