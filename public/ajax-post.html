@@ -12,46 +12,46 @@
 
         // the function that triggers an Ajax call - we add HEADERS and DATA to the Ajax call
         // note that there is no real server side code, therefore these params are not used
-        function getData() {
+        const getData = ()  =>{
 
             // we attach to our HTTP request
-            var ajaxParams = {
-                                method: 'post',
-                                body: JSON.stringify({min: 1, max: 100})
+            const ajaxParams = {
+                method: 'POST',
+                body: JSON.stringify({ min: 1, max: 100 }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             };
 
             fetch('./api/some.json', ajaxParams)
             .then(
                 function (response) {
-                    // handle the error - this example will always FAIL because there is no
+                    // handle the error - this example should FAIL because there is no
                     // implementation of a server side code that can handle a POST requests
+                    // however webstorm http server seems to handle it...
                     if (response.status !== 200) {
-                        document.querySelector("#data").innerHTML = 'Looks like there was a problem. Status Code: ' +
-                            response.status;
+                        document.querySelector("#data").innerHTML = `Looks like there was a problem. Status Code: ${response.status}`;
                         return;
                     }
-
-                    // Examine the response and generate the HTML
-                    response.json()
-                        .then(function (data) {
-                        var html = `<h2> Name: ${data.name}</h2><ol>`;
-                        for (const i in data.cars) {
-                            html += `<li>${data.cars[i].name}: `;
-                            for (j in data.cars[i].models) {
-                                html += data.cars[i].models[j] + ", ";
-                            }
-                            html += "</li>"
-                        }
-                        html += "</ol>";
-                        // display the HTML
-                        document.querySelector("#data").innerHTML = html;
-                    });
-                }
-            )
-            .catch(function (err) {
-                console.log('Fetch Error :', err);
-            });
+                    return response.json();
+                })
+                .then(data => {
+                    if (!data) return;
+                    document.querySelector("#data").innerHTML = generateHTML(data);
+                })
+                .catch(err => {
+                    console.log('Fetch Error:', err);
+                });
         }
+
+        const generateHTML = data => {
+            let html = `<h2>Name: ${data.name}</h2><ol>`;
+            data.cars.forEach(car => {
+                html += `<li>${car.name}: ${car.models.join(', ')}</li>`;
+            });
+            html += `</ol>`;
+            return html;
+        };
 
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelector("#getdata").addEventListener("click", getData);

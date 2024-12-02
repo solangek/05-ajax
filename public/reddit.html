@@ -5,21 +5,12 @@
     <title>Title</title>
 </head>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelector("#getdata").addEventListener("click", getData);
-    });
 
-    function status(response) {
-        if (response.status >= 200 && response.status < 300) {
-            return Promise.resolve(response)
-        } else {
-            return Promise.reject(new Error(response.statusText))
-        }
-    }
+    const getData = () =>{
 
-    function getData() {
+        const results = document.querySelector("#data");
 
-        document.querySelector("#data").innerHTML = "loading...";
+        results.innerHTML = "loading...";
 
         let numposts = document.getElementById("numposts").value;
 
@@ -31,20 +22,31 @@
 
             .then(json => {
 
-                document.querySelector("#data").innerHTML = ""; // remove the loading message
+                results.innerHTML = ""; // remove the loading message
 
                 // you must inspect the response to understand it's format
                 json.data.children.forEach(element => {
-                    document.querySelector("#data").insertAdjacentHTML('beforeend',
+                    results.insertAdjacentHTML('beforeend',
                         `<li>${element.data.title}</li>`)
                 });
 
             })
-            .catch(function(err) {
-                document.querySelector("#data").innerHTML = "something went wrong...try again later";
+            .catch((err) => {
+                results.innerHTML = `Something went wrong...try again later. ${err}`;
             });
     }
 
+    document.addEventListener('DOMContentLoaded',  () => {
+        document.querySelector("#getdata").addEventListener("click", getData);
+    });
+
+    const status = (response) => {
+        if (response.status >= 200 && response.status < 300) {
+            return Promise.resolve(response)
+        } else {
+            return Promise.reject(new Error(response.statusText))
+        }
+    }
 
 </script>
 <body>

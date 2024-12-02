@@ -8,7 +8,7 @@
 
 <script>
 
-    //(function () {  // working in local namespace
+    //(function () {  // working in closure scope
 
     // SYNTAX style async/awaits
         async function postData(url = '') {
@@ -39,7 +39,7 @@
                 }).join(''); // join the array of HTML strings into one string
 
                 // display the HTML in one shot
-                document.querySelector("#data").innerHTML = `<h2>Name: ${data.name}</h2><ul>${carListHTML}</ul>`;;
+                document.querySelector("#data").innerHTML = `<h2>Name: ${data.name}</h2><ul>${carListHTML}</ul>`;
             } catch (error) {
                 console.error(error);
             }

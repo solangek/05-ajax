@@ -6,25 +6,24 @@
 </head>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        document.querySelector("#getdata").addEventListener("click", getData);
+        document.querySelector("#getdata").addEventListener("click", () => {
+            // Jerusalem coordinates
+            const lat = 31.76904;
+            const lon = 35.21633;
+            const dataResult = document.querySelector("#data");
+
+            fetch(`https://www.7timer.info/bin/api.pl?lon=${lon}&lat=${lat}&product=astro&output=json`)
+                .then(response => response.json())
+                .then(response => response.dataseries[0].temp2m)
+
+                .then(temperature =>
+                    dataResult.innerHTML = `The temperature reported by the 7timer is: ${temperature} C`)
+
+                .catch((err) => {
+                    dataResult.innerHTML = `Something went wrong...try again later. ${err}`;
+                });
+        });
     });
-
-    function getData() {
-        // Jerusalem coordinates
-        const lat = 31.76904;
-        const lon = 35.21633;
-        fetch(`https://www.7timer.info/bin/api.pl?lon=${lon}&lat=${lat}&product=astro&output=json`)
-            .then(response => response.json())
-            .then(response => response.dataseries[0].temp2m)
-
-            .then(temperature =>
-                document.querySelector("#data").innerHTML = `The temperature reported by the 7timer is: ${temperature} C`)
-
-            .catch(function(err) {
-                document.querySelector("#data").innerHTML = "something went wrong...try again later";
-            });
-    }
-
 
 </script>
 <body>

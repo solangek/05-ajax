@@ -14,50 +14,45 @@
     // (function () {
 
         //  check the HTTP response status, returns a promise
-        function status(response) {
-            if (response.status >= 200 && response.status < 300) {
-                return Promise.resolve(response)
-            } else {
-                return Promise.reject(new Error(response.statusText))
-            }
+    const status = response => {
+        if (response.status >= 200 && response.status < 300) {
+            return Promise.resolve(response);
+        } else {
+            return Promise.reject(new Error(response.statusText));
         }
+    };
 
-        // returns a promise!
-        function json(response) {
-            return response.json()
-        }
+    const json = response => response.json();
 
 
         // the function that triggers an Ajax call
-        function getData() {
-            fetch('./api/some.json')
-                .then(status)
-                .then(json)
-                .then(function(data) {
-                    console.log('Request succeeded with JSON response', data);
+    const getData = () => {
+        fetch('./api/some.json')
+            .then(status)
+            .then(json)
+            .then(data => {
+                console.log('Request succeeded with JSON response', data);
 
-                    // generate the HTML
-                    let html = `<h2> Name: ${data.name}</h2>`;
-                    for (const i in data.cars) {
-                        html += `<li>${data.cars[i].name}: `;
-                        for (j in data.cars[i].models) {
-                            html += data.cars[i].models[j] + ", ";
-                        }
-                        html += "</li>"
-                    }
-                    // display the HTML
-                    document.querySelector("#data").innerHTML = html;
+                let html = `<h2>Name: ${data.name}</h2>`;
+                data.cars.forEach(car => {
+                    html += `<li>${car.name}: `;
+                    car.models.forEach(model => {
+                        html += `${model}, `;
+                    });
+                    html += `</li>`;
+                });
 
-
-                }).catch(function(error) {
+                document.querySelector("#data").innerHTML = html;
+            })
+            .catch(error => {
                 console.log('Request failed', error);
             });
+    };
 
-        }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelector("#getdata").addEventListener("click", getData);
-        }, false);
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector("#getdata").addEventListener("click", getData);
+    });
 
     // })();
 

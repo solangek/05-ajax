@@ -8,7 +8,7 @@
 <script>
     //
 
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded',  () => {
         document.querySelector("#getdata").addEventListener("click", getData);
     });
 
@@ -21,8 +21,8 @@
     }
 
     function getData() {
-
-        document.querySelector("#data").innerHTML = "loading...";
+        const results = document.querySelector("#data");
+        results.innerHTML = "loading...";
 
         fetch('https://api.github.com/users/nickwalton')
 
@@ -32,12 +32,12 @@
 
             .then(json => {
 
-                // you must inspect the response to understand it's format
-                document.querySelector("#data").innerHTML = json.bio; // remove the loading message
+                // you must inspect the response to understand its format
+                results.innerHTML = json.bio; // remove the loading message
 
             })
             .catch(function(err) {
-                document.querySelector("#data").innerHTML = "something went wrong...try again later";
+                results.innerHTML = `Something went wrong...try again later. ${err}`;
             });
 
     }

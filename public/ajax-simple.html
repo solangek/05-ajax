@@ -15,7 +15,7 @@
         function getData() {
             fetch('./api/some.json')
                 .then(
-                    function (response) {
+                     (response) =>{
                         // check the HTTP response status
                         if (response.status !== 200) {
                             document.querySelector("#data").innerHTML = 'Looks like there was a problem. Status Code: ' +
@@ -25,7 +25,7 @@
 
                         // Examine the response and generate the HTML
                         // look at ajax-simple2.html for a better solution
-                        response.json().then(function (data) {
+                        response.json().then( (data) =>{
                             let html = `<h2> Name: ${data.name}</h2><ol>`;
                             for (const i in data.cars) {
                                 html += `<li>${data.cars[i].name}: `;
@@ -40,12 +40,13 @@
                         });
                     }
                 )
-                .catch(function (err) {
+                .catch( (err) => {
+                    // should display a more user friendly message!
                     console.log('Fetch Error :', err);
                 });
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded',  () => {
             document.querySelector("#getdata").addEventListener("click", getData);
         }, false);
 
