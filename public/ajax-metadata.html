@@ -23,7 +23,8 @@
                         }
 
                         // Examine the response metadata
-                        response.json().then(function (data) {
+                        response.json()
+                            .then(function (data) {
                             var html = "<h2> Metadata</h2><pre>";
                             html += response.headers.get('Content-Type') + "<br/>";
                             html += response.headers.get('Date') + "<br/>";

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    function getData() {
+        fetch('./api/some.json')
+            .then(response => {
+                if (response.status !== 200) {
+                    document.querySelector("#data").innerHTML = 'Looks like there was a problem. Status Code: ' + response.status;
+                    return Promise.reject('Failed to fetch data');
+                }
+                return response.json();
+            })
+            .then(data => {
+                let html = `<h2>Name: ${data.name}</h2><ol>`;
+                data.cars.forEach(car => {
+                    html += `<li>${car.name}: ${car.models.join(', ')}</li>`;
+                });
+                html += `</ol>`;
+                document.querySelector("#data").innerHTML = html;
+            })
+            .catch(err => {
+                console.log('Fetch Error:', err);
+            });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector("#getdata").addEventListener("click", getData);
+    }, false);
+</script>
+
+<button id="getdata">Get data</button>
+<p>Data will be displayed below:</p>
+<div id="data"></div>
+
+</body>
+</html>

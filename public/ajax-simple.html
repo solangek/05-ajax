@@ -10,8 +10,9 @@
 
     //(function () {  // working in closure
 
-        // the function that triggers an Ajax call
-        // WITHOUT CHAINING - not the best solution
+    // WITHOUT CHAINING - not the best solution since Promises are
+    // nested and the code is not very readable.
+    // look at the correct chaining version in ajax-simple-with-chaining.html
         function getData() {
             fetch('./api/some.json')
                 .then(
@@ -25,15 +26,12 @@
 
                         // Examine the response and generate the HTML
                         // look at ajax-simple2.html for a better solution
-                        response.json().then( (data) =>{
+                        response.json()
+                            .then( (data) =>{
                             let html = `<h2> Name: ${data.name}</h2><ol>`;
-                            for (const i in data.cars) {
-                                html += `<li>${data.cars[i].name}: `;
-                                for (j in data.cars[i].models) {
-                                    html += data.cars[i].models[j] + ", ";
-                                }
-                                html += "</li>"
-                            }
+                            data.cars.forEach( (car) =>{
+                                html += `<li>${car.name}: ${car.models.join(', ')}</li>`;
+                            });
                             html += "</ol>";
                             // display the HTML
                             document.querySelector("#data").innerHTML = html;
